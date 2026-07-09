@@ -1,4 +1,4 @@
-/*
+*
   Pizza Ordering Chatbot
   Static browser adaptation of the original Python console order flow.
 */
@@ -36,7 +36,7 @@ const steps = [
   { id: "addAnother", label: "Would you like to order a different pizza or add another one?", validate: (value) => ["yes", "y", "no", "n"].includes(value.toLowerCase()), error: "Please enter yes or no." },
   { id: "method", label: "Is this carry out or delivery?", validate: (value) => ["carry out", "carryout", "pickup", "pick up", "delivery"].includes(value.toLowerCase()), error: "Please enter carry out or delivery." },
   { id: "paymentMethod", label: "Will you be paying with cash or card?", validate: (value) => ["cash", "card", "credit", "debit", "credit card", "debit card"].includes(value.toLowerCase()), error: "Please enter cash or card." },
-  { id: "cardNumber", label: "Enter your credit/debit card number for this demo payment. ***(Please dont enter your actual card number, as this is only a demo!): ", validate: (value) => /^\d{16}$/.test(value.replace(/[\s-]/g, "")), error: "Please enter a 16 digit number. " },
+  { id: "cardNumber", label: "Enter your credit/debit card number for this demo payment:", validate: (value) => /^\d{13,19}$/.test(value.replace(/[\s-]/g, "")), error: "Please enter a card number using 13 to 19 digits." },
   { id: "cardExpiration", label: "Enter the card expiration date as MM/YY:", validate: (value) => /^(0[1-9]|1[0-2])\/\d{2}$/.test(value), error: "Please enter the expiration date as MM/YY." },
   { id: "cardCvv", label: "Enter the 3 or 4 digit security code:", validate: (value) => /^\d{3,4}$/.test(value), error: "Please enter a 3 or 4 digit security code." },
   { id: "tip", label: "Would you like to add a tip for your delivery driver? Enter a dollar amount, or enter 0 for no tip. 100% of tips are kept by the driver.", validate: (value) => isValidMoney(value), error: "Please enter a valid tip amount, like 3, 3.50, or 0." }
@@ -96,7 +96,7 @@ function saveAnswer(id, value) {
 
 function respondToAnswer(id, value) {
   if (id === "userName") {
-    if (["alysha pursley"].includes(value.toLowerCase())) {
+    if (["alysha pursley", "alysha"].includes(value.toLowerCase())) {
       addBubble(`My creator, ${value}. Pleasure to serve you!`, "bot");
     } else {
       addBubble(`Hi, ${value}. Nice to meet you!`, "bot");
@@ -109,10 +109,21 @@ function respondToAnswer(id, value) {
     addBubble(`Added ${latestPizza.quantity} ${latestPizza.size} pizza(s) with ${latestPizza.toppings} and ${latestPizza.crustType} crust.`, "bot");
   }
 
+  if (id === "paymentMethod" && value === "cash") {
+    if (order.method === "delivery") {
+      addBubble("Your driver will collect your cash payment upon delivery.", "bot");
+    } else {
+      addBubble("Please pay for your order when you pick it up.", "bot");
+    }
+  }
+
+  if (id === "cardCvv") {
+    addBubble(`Card payment approved for the card ending in ${order.cardLastFour}.`, "bot");
+  }
+}
+
 function advanceStep(id, value) {
   if (id === "quantity") {
-    currentStep = order.method ? getStepIndex("addAnother") : getStepIndex("method");
-  } else if (id === "method") {
     currentStep = getStepIndex("addAnother");
   } else if (id === "addAnother") {
     if (value === "yes") {
@@ -120,8 +131,10 @@ function advanceStep(id, value) {
       order.addAnother = "";
       currentStep = getStepIndex("size");
     } else {
-      currentStep = getStepIndex("paymentMethod");
+      currentStep = getStepIndex("method");
     }
+  } else if (id === "method") {
+    currentStep = getStepIndex("paymentMethod");
   } else if (id === "paymentMethod") {
     if (value === "card") {
       currentStep = getStepIndex("cardNumber");
@@ -144,19 +157,6 @@ function advanceStep(id, value) {
   }
 
   showCurrentStep();
-}
-
-  if (id === "paymentMethod" && value === "cash") {
-    if (order.method === "delivery") {
-      addBubble("Your driver will collect your cash payment upon delivery.", "bot");
-    } else {
-      addBubble("Please pay for your order when you pick it up.", "bot");
-    }
-  }
-
-  if (id === "cardCvv") {
-    addBubble(`Card payment approved for the card ending in ${order.cardLastFour}.`, "bot");
-  }
 }
 
 function normalizeValue(id, value) {
@@ -281,32 +281,39 @@ function addBubble(text, type) {
 }
 
 function updateReceipt() {
-  const activePizza = order.currentPizza;
-  const latestPizza = order.pizzas[order.pizzas.length - 1] || activePizza;
-
-  document.querySelector("#rName").textContent = order.userName || "—";
-  document.querySelector("#rSize").textContent = latestPizza.size || "—";
-  document.querySelector("#rToppings").textContent = latestPizza.toppings || "—";
-  document.querySelector("#rCrust").textContent = latestPizza.crustType || "—";
-  document.querySelector("#rQuantity").textContent = latestPizza.quantity || "—";
-  document.querySelector("#rMethod").textContent = order.method || "—";
+  document.querySelector("#rName").textContent = order.userName || "â";
+  document.querySelector("#rMethod").textContent = order.method || "â";
   document.querySelector("#rPayment").textContent = getPaymentLabel();
+  document.querySelector("#rSubtotal").textContent = formatMoney(order.subtotal || 0);
+  document.querySelector("#rTax").textContent = formatMoney(order.tax || 0);
+  document.querySelector("#rDeliveryFee").textContent = formatMoney(order.deliveryFee || 0);
   document.querySelector("#rTip").textContent = formatMoney(order.tip || 0);
   document.querySelector("#rTotal").textContent = formatMoney(order.total || 0);
   document.querySelector("#rItems").innerHTML = getPizzaSummary();
 }
 
 function getPizzaSummary() {
-  if (order.pizzas.length === 0) return "<li>No pizzas added yet.</li>";
+  if (order.pizzas.length === 0) return "<p>No pizzas added yet.</p>";
 
   return order.pizzas.map((pizza, index) => {
-    const itemTotal = prices[pizza.size] * pizza.quantity;
-    return `<li><strong>Pizza ${index + 1}:</strong> ${pizza.quantity} ${pizza.size} pizza(s), ${pizza.toppings}, ${pizza.crustType} crust — ${formatMoney(itemTotal)}</li>`;
+    const unitPrice = prices[pizza.size];
+    const itemTotal = unitPrice * pizza.quantity;
+    return `
+      <div class="receipt-item">
+        <div>
+          <strong>Pizza ${index + 1}</strong>
+          <span>${pizza.quantity} Ã ${pizza.size} pizza</span>
+        </div>
+        <p><strong>Toppings:</strong> ${pizza.toppings}</p>
+        <p><strong>Crust:</strong> ${pizza.crustType}</p>
+        <p><strong>Unit price:</strong> ${formatMoney(unitPrice)}</p>
+        <p class="receipt-line-total"><strong>Item total:</strong> ${formatMoney(itemTotal)}</p>
+      </div>`;
   }).join("");
 }
 
 function getPaymentLabel() {
-  if (!order.paymentMethod) return "—";
+  if (!order.paymentMethod) return "â";
   if (order.paymentMethod === "card" && order.cardLastFour) return `card ending in ${order.cardLastFour}`;
   return order.paymentMethod;
 }
