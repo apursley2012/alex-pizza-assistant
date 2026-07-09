@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pizza Ordering Chatbot | Static Demo</title>
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#pizzaApp">Skip to chatbot</a>
+
+  <header class="pizzeria-bar">
+    <a class="pizzeria-brand" href="./index.html">
+      <span class="pizza-icon">🍕</span>
+      <span>
+        <strong>Alex Pizza Assistant</strong>
+        <small>Static ordering chatbot</small>
+      </span>
+    </a>
+    <nav class="pizzeria-nav">
+      <a href="./case-study.html">Case Study</a>
+      <a href="./article.html">Article</a>
+      <a href="./source-map.html">Source Map</a>
+    </nav>
+  </header>
+
+  <main id="pizzaApp" class="order-layout">
+    <section class="chat-window" aria-live="polite">
+      <div class="chat-titlebar">
+        <span>Order Chat</span>
+        <span id="orderStatus">Ready</span>
+      </div>
+      <div class="chat-feed" id="chatFeed">
+        <div class="bubble bot">Hello, my name is Alex, your virtual assistant. I will help you order a pizza!</div>
+        <div class="bubble bot">I am going to ask you a few questions. After typing an answer, press continue.</div>
+      </div>
+      <form class="chat-entry" id="chatForm">
+        <label id="questionLabel" for="chatInput">Enter your name:</label>
+        <input id="chatInput" type="text" autocomplete="off">
+        <button type="submit">Continue</button>
+        <p id="validationMessage" class="validation-message" role="alert"></p>
+      </form>
+    </section>
+
+    <aside class="receipt-panel">
+      <div class="receipt-paper">
+        <p class="receipt-kicker">Current Receipt</p>
+        <h1>Pizza Order</h1>
+        <dl>
+          <div><dt>Name</dt><dd id="rName">—</dd></div>
+          <div><dt>Size</dt><dd id="rSize">—</dd></div>
+          <div><dt>Toppings</dt><dd id="rToppings">—</dd></div>
+          <div><dt>Crust</dt><dd id="rCrust">—</dd></div>
+          <div><dt>Quantity</dt><dd id="rQuantity">—</dd></div>
+          <div><dt>Method</dt><dd id="rMethod">—</dd></div>
+          <div><dt>Payment</dt><dd id="rPayment">—</dd></div>
+          <div><dt>Tip</dt><dd id="rTip">$0.00</dd></div>
+        </dl>
+        <div class="receipt-items">
+          <h2>Pizza Items</h2>
+          <ul id="rItems"><li>No pizzas added yet.</li></ul>
+        </div>
+        <div class="total-row">
+          <span>Total</span>
+          <strong id="rTotal">$0.00</strong>
+        </div>
+        <button id="newOrder" type="button">Start over</button>
+      </div>
+
+      <section class="menu-card">
+        <h2>Menu Logic</h2>
+        <ul>
+          <li>Small: $8.99</li>
+          <li>Medium: $14.99</li>
+          <li>Large: $17.99</li>
+          <li>Delivery fee: $5.00</li>
+          <li>Sales tax: 10%</li>
+          <li>Multiple pizzas per order</li>
+          <li>Cash or card checkout</li>
+          <li>Optional card tip for delivery drivers</li>
+        </ul>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="pizzeria-footer">
+    <span>Static version of my Python pizza ordering chatbot.</span>
+    <span>Original source is included in <code>source/</code>.</span>
+  </footer>
+
+  <script src="./js/app.js"></script>
+</body>
+</html>
