@@ -33,10 +33,10 @@ const steps = [
   { id: "toppings", label: "Enter any toppings you want on your pizza. If you would like more than one, separate them with spaces:", validate: (value) => value.length > 0, error: "Toppings cannot be blank. If you do not want any toppings, simply enter cheese." },
   { id: "crustType", label: "Enter the type of crust you want: thin, thick, pan, or deep dish:", validate: (value) => value.length > 0, error: "Crust type cannot be blank." },
   { id: "quantity", label: "How many of these pizzas do you want to order? Enter a numeric value:", validate: (value) => /^\d+$/.test(value) && Number(value) > 0, error: "Please enter a numeric value greater than 0." },
-  { id: "method", label: "Is this carry out or delivery?", validate: (value) => ["carry out", "carryout", "pickup", "pick up", "delivery"].includes(value.toLowerCase()), error: "Please enter carry out or delivery." },
   { id: "addAnother", label: "Would you like to order a different pizza or add another one?", validate: (value) => ["yes", "y", "no", "n"].includes(value.toLowerCase()), error: "Please enter yes or no." },
+  { id: "method", label: "Is this carry out or delivery?", validate: (value) => ["carry out", "carryout", "pickup", "pick up", "delivery"].includes(value.toLowerCase()), error: "Please enter carry out or delivery." },
   { id: "paymentMethod", label: "Will you be paying with cash or card?", validate: (value) => ["cash", "card", "credit", "debit", "credit card", "debit card"].includes(value.toLowerCase()), error: "Please enter cash or card." },
-  { id: "cardNumber", label: "Enter your credit/debit card number for this demo payment:", validate: (value) => /^\d{13,19}$/.test(value.replace(/[\s-]/g, "")), error: "Please enter a card number using 13 to 19 digits." },
+  { id: "cardNumber", label: "Enter your credit/debit card number for this demo payment. ***(Please dont enter your actual card number, as this is only a demo!): ", validate: (value) => /^\d{16}$/.test(value.replace(/[\s-]/g, "")), error: "Please enter a 16 digit number. " },
   { id: "cardExpiration", label: "Enter the card expiration date as MM/YY:", validate: (value) => /^(0[1-9]|1[0-2])\/\d{2}$/.test(value), error: "Please enter the expiration date as MM/YY." },
   { id: "cardCvv", label: "Enter the 3 or 4 digit security code:", validate: (value) => /^\d{3,4}$/.test(value), error: "Please enter a 3 or 4 digit security code." },
   { id: "tip", label: "Would you like to add a tip for your delivery driver? Enter a dollar amount, or enter 0 for no tip. 100% of tips are kept by the driver.", validate: (value) => isValidMoney(value), error: "Please enter a valid tip amount, like 3, 3.50, or 0." }
@@ -96,7 +96,7 @@ function saveAnswer(id, value) {
 
 function respondToAnswer(id, value) {
   if (id === "userName") {
-    if (["alysha pursley", "alysha"].includes(value.toLowerCase())) {
+    if (["alysha pursley"].includes(value.toLowerCase())) {
       addBubble(`My creator, ${value}. Pleasure to serve you!`, "bot");
     } else {
       addBubble(`Hi, ${value}. Nice to meet you!`, "bot");
@@ -108,19 +108,6 @@ function respondToAnswer(id, value) {
     const latestPizza = order.pizzas[order.pizzas.length - 1];
     addBubble(`Added ${latestPizza.quantity} ${latestPizza.size} pizza(s) with ${latestPizza.toppings} and ${latestPizza.crustType} crust.`, "bot");
   }
-
-  if (id === "paymentMethod" && value === "cash") {
-    if (order.method === "delivery") {
-      addBubble("Your driver will collect your cash payment upon delivery.", "bot");
-    } else {
-      addBubble("Please pay for your order when you pick it up.", "bot");
-    }
-  }
-
-  if (id === "cardCvv") {
-    addBubble(`Card payment approved for the card ending in ${order.cardLastFour}.`, "bot");
-  }
-}
 
 function advanceStep(id, value) {
   if (id === "quantity") {
@@ -157,6 +144,19 @@ function advanceStep(id, value) {
   }
 
   showCurrentStep();
+}
+
+  if (id === "paymentMethod" && value === "cash") {
+    if (order.method === "delivery") {
+      addBubble("Your driver will collect your cash payment upon delivery.", "bot");
+    } else {
+      addBubble("Please pay for your order when you pick it up.", "bot");
+    }
+  }
+
+  if (id === "cardCvv") {
+    addBubble(`Card payment approved for the card ending in ${order.cardLastFour}.`, "bot");
+  }
 }
 
 function normalizeValue(id, value) {
