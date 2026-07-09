@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study</title>
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <header class="pizzeria-bar">
+    <a class="pizzeria-brand" href="./index.html">
+      <span class="pizza-icon">🍕</span>
+      <span><strong>Alex Pizza Assistant</strong><small>Case Study</small></span>
+    </a>
+    <nav class="pizzeria-nav">
+      <a href="./index.html">Demo</a>
+      <a href="./case-study.html">Case Study</a>
+      <a href="./article.html">Article</a>
+      <a href="./source-map.html">Source Map</a>
+    </nav>
+  </header>
+  <main class="article-page">
+    <article class="article-card">
+      <h1>Case Study: Pizza Ordering Chatbot Static App</h1><h2>Project Overview</h2><p>The Pizza Ordering Chatbot is a static browser version of my original Python console ordering program. The original project used terminal prompts to collect pizza order details and calculate the final cost. I translated that flow into a small web app so the ordering logic is easier to interact with.</p><h2>What the Original Program Did</h2><p>The Python version introduced a virtual assistant named Alex. Alex asked for:</p><ul><li>the user&#x27;s name</li><li>pizza size</li><li>pizza toppings</li><li>crust type</li><li>quantity</li><li>carry out or delivery</li></ul><p>The program then calculated the total using the selected pizza size, quantity, sales tax multiplier, and delivery fee.</p><h2>Validation and User Input</h2><p>The original program used `while` loops to keep asking for a value until the user entered something valid. That matters because the order calculation depends on the input being usable. The static version keeps that same idea with browser-side validation.</p><p>If the user leaves a required answer blank or enters a value the app cannot recognize, the page shows a message and does not continue until the response is fixed.</p><h2>Pricing Logic</h2><p>The pricing logic is based on the original code:</p><ul><li>small pizza: $8.99</li><li>medium pizza: $14.99</li><li>large pizza: $17.99</li><li>delivery fee: $5.00</li><li>sales tax: 10%</li></ul><p>The formula is:</p><p>`total = (pizzaCost * quantity) * salesTax + deliveryFee`</p><p>After the total is calculated, the app checks whether the order is at least $50. If it is, the user receives a coupon message. If not, the app tells the user that orders over $50 receive the coupon.</p><h2>Static Version Design</h2><p>I designed the static version like a small pizza-ordering chat app. The chat area follows the original prompt sequence, and the receipt panel shows the order as it is being built. That makes the original console behavior more visible without adding unrelated features.</p><h2>What I Would Improve Next</h2><p>If I expanded this project, I would add real menu buttons, optional toppings, and a way to review the order before submitting it. I would also split the pricing data into a larger menu file if the project grew beyond the original assignment logic.</p>
+    </article>
+  </main>
+</body>
+</html>
