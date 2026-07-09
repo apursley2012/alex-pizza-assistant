@@ -1,0 +1,373 @@
+/*
+  Pizza Ordering Chatbot
+  Static browser version of the original Python console chatbot.
+  Colors use HEX values only.
+*/
+
+:root {
+  --oven-black: #22130E;
+  --deep-red: #B53A24;
+  --tomato: #E4572E;
+  --cheese: #FFD166;
+  --cream: #FFF7ED;
+  --flour: #F8E4C9;
+  --basil: #5B7F45;
+  --ink: #2B1B14;
+  --muted: #7C5C4B;
+  --white: #FFFFFF;
+  --shadow: #00000033;
+  --soft-shadow: #00000018;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(120deg, #FFF7ED 0%, #F8E4C9 50%, #FFD16655 100%);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 1rem;
+  background: var(--oven-black);
+  color: var(--cream);
+  padding: .75rem 1rem;
+  border-radius: 999px;
+  z-index: 10;
+}
+
+.skip-link:focus {
+  left: 1rem;
+}
+
+.pizzeria-bar {
+  width: min(1160px, calc(100% - 32px));
+  margin: 22px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: var(--cream);
+  border: 3px solid var(--oven-black);
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 8px 8px 0 var(--oven-black);
+}
+
+.pizzeria-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .85rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.pizzeria-brand strong,
+.pizzeria-brand small {
+  display: block;
+}
+
+.pizzeria-brand strong {
+  font-size: 1.1rem;
+}
+
+.pizzeria-brand small {
+  color: var(--muted);
+}
+
+.pizza-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: var(--cheese);
+  border: 2px solid var(--oven-black);
+  font-size: 1.5rem;
+}
+
+.pizzeria-nav {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.pizzeria-nav a {
+  color: var(--cream);
+  background: var(--oven-black);
+  border-radius: 999px;
+  padding: .65rem .9rem;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.pizzeria-nav a:hover,
+.pizzeria-nav a:focus {
+  background: var(--tomato);
+}
+
+.order-layout {
+  width: min(1160px, calc(100% - 32px));
+  margin: 0 auto 24px;
+  display: grid;
+  grid-template-columns: minmax(320px, 1.25fr) minmax(280px, .75fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.chat-window {
+  overflow: hidden;
+  background: var(--white);
+  border: 3px solid var(--oven-black);
+  border-radius: 24px;
+  box-shadow: 10px 10px 0 var(--oven-black);
+}
+
+.chat-titlebar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--deep-red);
+  color: var(--cream);
+  padding: 1rem 1.2rem;
+  font-weight: 900;
+}
+
+.chat-feed {
+  min-height: 480px;
+  max-height: 58vh;
+  overflow: auto;
+  padding: 1.2rem;
+  background:
+    linear-gradient(90deg, #00000008 1px, transparent 1px),
+    linear-gradient(#00000008 1px, transparent 1px),
+    var(--cream);
+  background-size: 28px 28px;
+}
+
+.bubble {
+  width: fit-content;
+  max-width: min(720px, 92%);
+  padding: .9rem 1rem;
+  border-radius: 20px;
+  margin: 0 0 .75rem;
+  line-height: 1.55;
+  box-shadow: 0 8px 18px var(--soft-shadow);
+}
+
+.bubble.bot {
+  background: var(--white);
+  border: 2px solid var(--oven-black);
+}
+
+.bubble.user {
+  margin-left: auto;
+  background: var(--cheese);
+  border: 2px solid var(--oven-black);
+}
+
+.bubble.result {
+  background: var(--basil);
+  color: var(--white);
+  border: 2px solid var(--oven-black);
+}
+
+.chat-entry {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .7rem;
+  padding: 1rem;
+  border-top: 3px solid var(--oven-black);
+  background: var(--white);
+}
+
+.chat-entry label {
+  grid-column: 1 / -1;
+  font-weight: 900;
+}
+
+.chat-entry input {
+  min-height: 48px;
+  border: 2px solid var(--oven-black);
+  border-radius: 14px;
+  padding: .8rem 1rem;
+}
+
+.chat-entry button,
+.receipt-paper button {
+  min-height: 48px;
+  border: 2px solid var(--oven-black);
+  background: var(--tomato);
+  color: var(--white);
+  border-radius: 14px;
+  padding: .75rem 1rem;
+  font-weight: 900;
+}
+
+.validation-message {
+  grid-column: 1 / -1;
+  margin: 0;
+  min-height: 1.3rem;
+  color: var(--deep-red);
+  font-weight: 800;
+}
+
+.receipt-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.receipt-paper,
+.menu-card {
+  background: var(--white);
+  border: 3px solid var(--oven-black);
+  border-radius: 24px;
+  padding: 1.2rem;
+  box-shadow: 8px 8px 0 var(--oven-black);
+}
+
+.receipt-kicker {
+  margin: 0;
+  color: var(--deep-red);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-weight: 900;
+  font-size: .75rem;
+}
+
+.receipt-paper h1,
+.menu-card h2 {
+  margin: .25rem 0 1rem;
+}
+
+.receipt-paper dl {
+  margin: 0;
+}
+
+.receipt-paper dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .55rem 0;
+  border-bottom: 1px dashed #2B1B1444;
+}
+
+.receipt-paper dt {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.receipt-paper dd {
+  margin: 0;
+  text-align: right;
+  font-weight: 900;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: var(--cheese);
+  border: 2px solid var(--oven-black);
+  border-radius: 16px;
+  font-size: 1.25rem;
+}
+
+.menu-card ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  line-height: 1.8;
+}
+
+.pizzeria-footer {
+  width: min(1160px, calc(100% - 32px));
+  margin: 0 auto 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  color: var(--muted);
+}
+
+.article-page {
+  width: min(920px, calc(100% - 32px));
+  margin: 0 auto 32px;
+}
+
+.article-card {
+  background: var(--white);
+  border: 3px solid var(--oven-black);
+  border-radius: 24px;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  box-shadow: 10px 10px 0 var(--oven-black);
+  line-height: 1.75;
+}
+
+.article-card h1,
+.article-card h2 {
+  color: var(--deep-red);
+}
+
+.article-card h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+}
+
+@media (max-width: 900px) {
+  .order-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .pizzeria-bar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .pizzeria-nav {
+    justify-content: flex-start;
+  }
+
+  .chat-entry {
+    grid-template-columns: 1fr;
+  }
+}
+
+.receipt-items {
+  margin-top: 1rem;
+  padding: .9rem;
+  background: #fff7db;
+  border: 1px dashed #2B1B1444;
+  border-radius: 14px;
+}
+
+.receipt-items h2 {
+  margin: 0 0 .6rem;
+  font-size: .95rem;
+}
+
+.receipt-items ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  line-height: 1.55;
+}
