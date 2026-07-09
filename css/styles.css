@@ -371,3 +371,89 @@ button {
   padding-left: 1.1rem;
   line-height: 1.55;
 }
+
+.receipt-summary,
+.receipt-totals {
+  margin-top: .85rem;
+}
+
+.receipt-item-list {
+  display: grid;
+  gap: .7rem;
+}
+
+.receipt-item-list > p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.receipt-item {
+  background: var(--white);
+  border: 2px solid #2B1B1422;
+  border-radius: 14px;
+  padding: .85rem;
+}
+
+.receipt-item div {
+  display: flex;
+  justify-content: space-between;
+  gap: .75rem;
+  flex-wrap: wrap;
+  margin-bottom: .45rem;
+}
+
+.receipt-item span {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.receipt-item p {
+  margin: .25rem 0;
+}
+
+.receipt-line-total {
+  padding-top: .45rem;
+  border-top: 1px dashed #2B1B1444;
+  text-align: right;
+}
+
+.pizzeria-footer {
+  background: var(--oven-black);
+  color: var(--cream);
+  border: 3px solid var(--oven-black);
+  border-radius: 22px 22px 0 0;
+  box-shadow: 8px 8px 0 #00000044;
+  padding: 1.35rem;
+  align-items: center;
+}
+
+.pizzeria-footer strong {
+  font-size: 1.15rem;
+}
+
+.pizzeria-footer p {
+  margin: 0;
+}
+
+.pizzeria-footer nav {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+
+.pizzeria-footer a {
+  color: var(--oven-black);
+  background: var(--cheese);
+  border: 2px solid var(--cream);
+  border-radius: 999px;
+  padding: .55rem .8rem;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+.pizzeria-footer a:hover,
+.pizzeria-footer a:focus {
+  background: var(--tomato);
+  color: var(--white);
+}
