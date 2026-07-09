@@ -428,6 +428,19 @@ button {
   align-items: center;
 }
 
+.pizzeria-footer {
+  background: var(--cream);
+  color: var(--ink);
+  border: 3px solid var(--oven-black);
+  border-radius: 24px;
+  box-shadow: 8px 8px 0 var(--oven-black);
+  padding: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
 .pizzeria-footer strong {
   font-size: 1.15rem;
 }
@@ -440,20 +453,19 @@ button {
   display: flex;
   gap: .5rem;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .pizzeria-footer a {
-  color: var(--oven-black);
-  background: var(--cheese);
-  border: 2px solid var(--cream);
+  color: var(--cream);
+  background: var(--oven-black);
   border-radius: 999px;
-  padding: .55rem .8rem;
+  padding: .65rem .9rem;
   text-decoration: none;
-  font-weight: 900;
+  font-weight: 800;
 }
 
 .pizzeria-footer a:hover,
 .pizzeria-footer a:focus {
   background: var(--tomato);
-  color: var(--white);
 }
