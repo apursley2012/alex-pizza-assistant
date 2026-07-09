@@ -478,6 +478,6 @@ button {
 
 .pizzeria-footer a:hover,
 .pizzeria-footer a:focus {
-  background: var(--basil);
+  background: var(--muted);
   color: var(--white);
 }
