@@ -1,0 +1,10 @@
+{
+  "prices": {
+    "small": 8.99,
+    "medium": 14.99,
+    "large": 17.99
+  },
+  "salesTaxMultiplier": 1.1,
+  "deliveryFee": 5,
+  "couponThreshold": 50
+}
