@@ -429,7 +429,7 @@ button {
 }
 
 .pizzeria-footer {
-  background: var(--cream);
+  background: var(--basil);
   color: var(--ink);
   border: 3px solid var(--oven-black);
   border-radius: 24px;
