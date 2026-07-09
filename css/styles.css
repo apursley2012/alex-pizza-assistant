@@ -417,6 +417,7 @@ button {
   text-align: right;
 }
 
+/*
 .pizzeria-footer {
   background: var(--oven-black);
   color: var(--cream);
@@ -425,7 +426,7 @@ button {
   box-shadow: 8px 8px 0 #00000044;
   padding: 1.35rem;
   align-items: center;
-}
+}*/
 
 .pizzeria-footer {
   background: var(--cream);
