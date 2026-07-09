@@ -46,20 +46,21 @@
       <div class="receipt-paper">
         <p class="receipt-kicker">Current Receipt</p>
         <h1>Pizza Order</h1>
-        <dl>
+        <dl class="receipt-summary">
           <div><dt>Name</dt><dd id="rName">—</dd></div>
-          <div><dt>Size</dt><dd id="rSize">—</dd></div>
-          <div><dt>Toppings</dt><dd id="rToppings">—</dd></div>
-          <div><dt>Crust</dt><dd id="rCrust">—</dd></div>
-          <div><dt>Quantity</dt><dd id="rQuantity">—</dd></div>
           <div><dt>Method</dt><dd id="rMethod">—</dd></div>
           <div><dt>Payment</dt><dd id="rPayment">—</dd></div>
-          <div><dt>Tip</dt><dd id="rTip">$0.00</dd></div>
         </dl>
         <div class="receipt-items">
-          <h2>Pizza Items</h2>
-          <ul id="rItems"><li>No pizzas added yet.</li></ul>
+          <h2>Ordered Items</h2>
+          <div id="rItems" class="receipt-item-list"><p>No pizzas added yet.</p></div>
         </div>
+        <dl class="receipt-totals">
+          <div><dt>Subtotal</dt><dd id="rSubtotal">$0.00</dd></div>
+          <div><dt>Sales tax</dt><dd id="rTax">$0.00</dd></div>
+          <div><dt>Delivery fee</dt><dd id="rDeliveryFee">$0.00</dd></div>
+          <div><dt>Driver tip</dt><dd id="rTip">$0.00</dd></div>
+        </dl>
         <div class="total-row">
           <span>Total</span>
           <strong id="rTotal">$0.00</strong>
@@ -84,8 +85,14 @@
   </main>
 
   <footer class="pizzeria-footer">
-    <span>Static version of my Python pizza ordering chatbot.</span>
-    <span>Original source is included in <code>source/</code>.</span>
+    <strong>Alex the Pizza Assistant</strong>
+    <p>2026 ©️ Alysha Pursley. All rights reserved.</p>
+    <nav aria-label="Footer navigation">
+      <a href="./index.html">Demo</a>
+      <a href="./case-study.html">Case Study</a>
+      <a href="./article.html">Article</a>
+      <a href="./source-map.html">Source Map</a>
+    </nav>
   </footer>
 
   <script src="./js/app.js"></script>
